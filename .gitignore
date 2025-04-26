@@ -1,0 +1,13 @@
+# CHISEL:
+
+generated-src/
+project/
+target/
+test_run_dir/
+
+*.v
+*.fir
+*.json
+*.vcd
+*.metals
+*.bloop
