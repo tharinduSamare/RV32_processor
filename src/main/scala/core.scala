@@ -13,9 +13,11 @@ import aluOpBMux._
 // Main Class
 // -----------------------------------------
 
-class PipelinedRV32Icore (BinaryFile: String) extends Module {
+class PipelinedRV32Icore extends Module {
     val io = IO(new Bundle {
         val check_res = Output(UInt(32.W))
+        val instr = Input(UInt(32.W))
+        val PC = Output(UInt(32.W))
     })
 
     // Pipeline Registers
@@ -26,7 +28,7 @@ class PipelinedRV32Icore (BinaryFile: String) extends Module {
     val WBBarrier  = Module(new WBBarrier)
 
     // Pipeline Stages
-    val IF  = Module(new IF(BinaryFile))
+    val IF  = Module(new IF)
     val ID  = Module(new ID)
     val EX  = Module(new EX)
     val MEM = Module(new MEM)
@@ -40,6 +42,8 @@ class PipelinedRV32Icore (BinaryFile: String) extends Module {
     IF.io.PCWrite   := HazardDetectionUnit_inst.io.pcWrite
     IF.io.PCSrc     := EXBarrier.io.outPCSrc
     IF.io.PC_JB     := EXBarrier.io.outPC_JB
+    IF.io.instrMem  := io.instr
+    io.PC           := IF.io.PCMem
 
     IFBarrier.io.inInstr  := IF.io.instr
     IFBarrier.io.inPC     := IF.io.pc

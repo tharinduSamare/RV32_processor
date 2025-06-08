@@ -3,7 +3,6 @@ package core_tile
 import chisel3._
 import chisel3.experimental.ChiselEnum
 import chisel3.util._
-import chisel3.util.experimental.loadMemoryFromFile
 
 import ALUOpT._
 import aluOpAMux._
@@ -14,27 +13,27 @@ import aluOpBMux._
 // Fetch Stage
 // -----------------------------------------
 
-class IF (BinaryFile: String) extends Module {
+class IF extends Module {
     val io = IO(new Bundle {
         val instr = Output(UInt(32.W))
         val pc = Output(UInt(32.W))
         val PC_JB = Input(UInt(32.W))
         val PCSrc = Input(UInt(1.W))
         val PCWrite = Input(UInt(1.W))
+        val PCMem = Output(UInt(32.W)) // PC to memory
+        val instrMem = Input(UInt(32.W)) // instruction from memory
     })
 
-    val IMem = Mem(4096, UInt(32.W))
-    loadMemoryFromFile(IMem, BinaryFile)
-
-    val PC = RegInit(0.U(32.W))
-    
-    io.instr := IMem(PC>>2.U)
-    io.pc := PC
-
     // Update PC
+    val PC = RegInit(0.U(32.W))
     when(io.PCWrite === 1.U){
         PC := Mux((io.PCSrc === 0.U), (PC+4.U), io.PC_JB)
     }
+    
+    io.pc := PC
+    io.PCMem := PC
+    io.instr := io.instrMem
+
 }
 
 

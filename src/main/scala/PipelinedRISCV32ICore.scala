@@ -8,6 +8,7 @@ package PipelinedRV32I
 
 import chisel3._
 import chisel3.util._
+import chisel3.util.experimental.loadMemoryFromFile
 
 import core_tile._
 
@@ -17,9 +18,13 @@ class PipelinedRV32I (BinaryFile: String) extends Module {
     val result = Output(UInt(32.W)) 
   })
   
-  val core   = Module(new PipelinedRV32Icore(BinaryFile))
+  val core   = Module(new PipelinedRV32Icore)
+  val IMem = Mem(4096, UInt(32.W))
+  loadMemoryFromFile(IMem, BinaryFile)
 
   io.result  := core.io.check_res
+  core.io.instr := IMem(core.io.PC>>2.U)
+
 
 }
 
