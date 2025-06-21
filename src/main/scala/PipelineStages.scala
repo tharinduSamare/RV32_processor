@@ -131,21 +131,23 @@ class MEM extends Module {
         val memRd = Input(memRdOpT())
         val memWr = Input(memWrOpT())
         val readData = Output(UInt(32.W))
+        val dmem = Flipped(new DMEM_IO)
     })
 
-    val DMEM_inst = Module(new DMEM(DEPTH = 4096))
     val MemController_inst = Module(new MemController)
 
     MemController_inst.io.addr := io.addr
     MemController_inst.io.wrOp := io.memWr
     MemController_inst.io.wData := io.writeData
     MemController_inst.io.rdOp := io.memRd
-    MemController_inst.io.mem_rData := DMEM_inst.io.rData
     io.readData := MemController_inst.io.rData
 
-    DMEM_inst.io.addr := MemController_inst.io.mem_addr
-    DMEM_inst.io.wData := MemController_inst.io.mem_wData
-    DMEM_inst.io.wrEn := MemController_inst.io.mem_wrEn
+    MemController_inst.io.dmem <> io.dmem
+
+    // MemController_inst.io.dmem.rData := io.dmem.rData
+    // io.dmem.addr := MemController_inst.io.dmem.addr
+    // io.dmem.wData := MemController_inst.io.dmem.wData
+    // io.dmem.wrEn := MemController_inst.io.dmem.wrEn
 
 }
 

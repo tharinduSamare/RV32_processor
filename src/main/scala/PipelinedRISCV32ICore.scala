@@ -20,11 +20,25 @@ class PipelinedRV32I (BinaryFile: String) extends Module {
   
   val core   = Module(new PipelinedRV32Icore)
   val IMem = Mem(4096, UInt(32.W))
+  val DMem = Module(new DMEM(4096))
   loadMemoryFromFile(IMem, BinaryFile)
 
   io.result  := core.io.check_res
-  core.io.instr := IMem(core.io.PC>>2.U)
+  core.io.imem.instr := IMem(core.io.imem.PC>>2.U)
+
+  core.io.dmem <> DMem.io
 
 
+}
+
+class DMEM (DEPTH: Int = 4096) extends Module {
+    val io = IO(new DMEM_IO)
+
+    val mem = Mem(DEPTH, UInt(32.W))
+
+    when(io.wrEn === 1.U){
+        mem(io.addr) := io.wData
+    }
+    io.rData := mem(io.addr)
 }
 

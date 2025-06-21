@@ -9,6 +9,18 @@ import ALUOpT._
 import aluOpAMux._
 import aluOpBMux._
 
+class DMEM_IO extends  Bundle{
+    val addr = Input(UInt(32.W))
+    val wData = Input(UInt(32.W))
+    val wrEn = Input(UInt(1.W))
+    val rData = Output(UInt(32.W))
+}
+
+class IMEM_IO extends Bundle{
+    val PC = Input(UInt(32.W))
+    val instr = Output(UInt(32.W))
+}
+
 // -----------------------------------------
 // Main Class
 // -----------------------------------------
@@ -16,8 +28,8 @@ import aluOpBMux._
 class PipelinedRV32Icore extends Module {
     val io = IO(new Bundle {
         val check_res = Output(UInt(32.W))
-        val instr = Input(UInt(32.W))
-        val PC = Output(UInt(32.W))
+        val dmem = Flipped(new DMEM_IO)
+        val imem = Flipped(new IMEM_IO)
     })
 
     // Pipeline Registers
@@ -42,8 +54,8 @@ class PipelinedRV32Icore extends Module {
     IF.io.PCWrite   := HazardDetectionUnit_inst.io.pcWrite
     IF.io.PCSrc     := EXBarrier.io.outPCSrc
     IF.io.PC_JB     := EXBarrier.io.outPC_JB
-    IF.io.instrMem  := io.instr
-    io.PC           := IF.io.PCMem
+    IF.io.instrMem  := io.imem.instr
+    io.imem.PC   := IF.io.PCMem
 
     IFBarrier.io.inInstr  := IF.io.instr
     IFBarrier.io.inPC     := IF.io.pc
@@ -118,6 +130,7 @@ class PipelinedRV32Icore extends Module {
     MEM.io.memRd        := EXBarrier.io.outMemRd
     MEM.io.memWr        := EXBarrier.io.outMemWr
     MEM.io.writeData    := EXBarrier.io.outMemWrData
+    io.dmem <> MEM.io.dmem
 
     MEMBarrier.io.inAluResult := EXBarrier.io.outAluResult
     MEMBarrier.io.inMemData   := MEM.io.readData
