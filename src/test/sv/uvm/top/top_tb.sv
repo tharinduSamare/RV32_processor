@@ -1,4 +1,5 @@
 import uvm_pkg::*;
+import tb_config_pkg::*;
 module top_tb();
 
     timeunit 1ns;
@@ -35,6 +36,14 @@ module top_tb();
         .io_dmem_rData(dmem_if.data_out)
     );
 
+    ins_mem #(.MEM_INIT_FILE(IMEM_INIT_FILE))imem(
+        .mem_if(imem_if)
+    );
+
+    data_mem dmem(
+        .mem_if(dmem_if)
+    );
+
     initial begin
         uvm_config_db #(virtual imem_if)::set(null, "uvm_test_top", "imem_vif", imem_if);
         uvm_config_db #(virtual dmem_if)::set(null, "uvm_test_top", "dmem_vif", dmem_if);
@@ -46,5 +55,50 @@ module top_tb();
    		$dumpfile("dump.vcd");
    		$dumpvars;
    end
+
+endmodule
+
+module ins_mem #(
+    parameter string MEM_INIT_FILE = "src/test/programs/BinaryFile"
+) (
+    imem_if mem_if
+);
+
+logic [INSTR_WIDTH-1:0]mem[0:IMEM_DEPTH-1];
+
+initial begin
+    $readmemh(MEM_INIT_FILE, mem); 
+end
+
+always_ff@(posedge mem_if.clk) begin
+    if(!mem_if.rstn) begin
+        mem_if.instr <= '0;
+    end
+    else begin
+        mem_if.instr <= mem[mem_if.pc];
+    end
+end
+
+endmodule
+
+module data_mem(
+    dmem_if mem_if
+);
+
+logic [DATA_WIDTH-1:0]mem[0:DMEM_DEPTH-1];
+
+always_ff @(posedge mem_if.clk) begin
+    if(!mem_if.rstn) begin
+        mem_if.data_out <= '0;
+    end
+    else begin
+        if(mem_if.wrEn) begin
+            mem[mem_if.addr] <= mem_if.data_in;
+        end
+        else begin
+            mem_if.data_out <= mem[mem_if.addr];
+        end
+    end
+end
 
 endmodule
