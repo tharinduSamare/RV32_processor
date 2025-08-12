@@ -88,17 +88,11 @@ module data_mem(
 logic [DATA_WIDTH-1:0]mem[0:DMEM_DEPTH-1];
 
 always_ff @(posedge mem_if.clk) begin
-    if(!mem_if.rstn) begin
-        mem_if.data_out <= '0;
-    end
-    else begin
-        if(mem_if.wrEn) begin
-            mem[mem_if.addr] <= mem_if.data_in;
-        end
-        else begin
-            mem_if.data_out <= mem[mem_if.addr];
-        end
+    if(mem_if.wrEn) begin
+        mem[mem_if.addr] <= mem_if.data_in;
     end
 end
+
+assign mem_if.data_out = (!mem_if.rstn)? '0 : mem[mem_if.addr];
 
 endmodule
