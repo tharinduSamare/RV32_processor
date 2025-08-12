@@ -72,12 +72,14 @@ class ControlUnit extends  Module {
 
     val isPCRelative = Wire(UInt(1.W))
     val isJump = Wire(UInt(1.W))
+    val useImmediate = Wire(UInt(1.W))
     isJump := (opcode === opcodeT.J_type) || (opcode === opcodeT.JR_type) 
     isPCRelative  := (isJump === 1.U) || (opcode === opcodeT.AU_type)
+    useImmediate := (opcode === opcodeT.I_type) || (opcode === opcodeT.U_type) || (opcode === opcodeT.L_type) || (opcode === opcodeT.S_type) || (opcode === opcodeT.AU_type)
 
     io.wrEn := (opcode === opcodeT.R_type) || (opcode === opcodeT.I_type) || (opcode === opcodeT.U_type) || (opcode === opcodeT.AU_type) || (opcode === opcodeT.L_type) || (isJump === 1.U)
     io.ALUSrcA := Mux((isPCRelative === 1.U), aluOpAPCMux.PC, aluOpAPCMux.forwardMuxA)
-    io.ALUSrcB := Mux((opcode === opcodeT.I_type), aluOpBImmMux.imme, (Mux((isJump === 1.U), aluOpBImmMux.plus4, aluOpBImmMux.forwardMuxB)))
+    io.ALUSrcB := Mux((useImmediate === 1.U), aluOpBImmMux.imme, (Mux((isJump === 1.U), aluOpBImmMux.plus4, aluOpBImmMux.forwardMuxB)))
     io.memtoReg := (opcode === opcodeT.L_type)
 
     io.memRd := memRdOpT.IDLE
