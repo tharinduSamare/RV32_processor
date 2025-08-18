@@ -67,3 +67,21 @@ object memWrOpT extends  ChiselEnum {
 object memRdOpT extends ChiselEnum {
     val LB, LH, LW, LBU, LHU, IDLE = Value
 }
+
+object csrT extends ChiselEnum {
+    val is_stvec   = Value(0x105.U)
+
+    val is_mhartid = Value(0xF14.U)
+
+    val is_mstatus = Value(0x300.U)
+    val is_misa    = Value(0x301.U)
+    val is_medeleg = Value(0x302.U)
+    val is_mideleg = Value(0x303.U)
+    val is_mie     = Value(0x304.U)
+    val is_mtvec   = Value(0x305.U)
+
+    val is_mepc    = Value(0x341.U)
+    val is_mcause  = Value(0x342.U)
+
+    val is_pmpcfg0 = Value(0x3A0.U)
+}
