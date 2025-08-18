@@ -28,6 +28,7 @@ class ALU extends Module {
     .elsewhen(io.ALUOp === isSLT)  {io.aluResult := Mux(io.operandA < io.operandB, 1.U, 0.U)}  // automatic sign extension, if SInt datatype is use
     .elsewhen(io.ALUOp === isSLTU) {io.aluResult := Mux(io.operandA < io.operandB, 1.U, 0.U)}
     .elsewhen(io.ALUOp === isPASSB){io.aluResult := io.operandB} // pass immediate value (OperandB) to result
+    .elsewhen(io.ALUOp === isMUL)  {io.aluResult := io.operandA * io.operandB}
     .otherwise                     {io.aluResult := "h_FFFF_FFFF".U} // = 2^32 - 1; self-defined encoding for invalid operation, value is unlikely to be reached in a regular arithmetic operation
 
     val zero = (io.operandA === io.operandB) // this is not being used. Brach logic is in the decode stage as a seperate module called "BranchCheck"

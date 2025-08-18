@@ -29,12 +29,12 @@ class BranchCheck extends Module{
 
     branch_condition := 0.U
     switch(branch_func3){
-        is(branchT.BEQ) {branch_condition := (io.operandA === io.operandB)}
+        // is(branchT.BEQ) {branch_condition := (io.operandA === io.operandB)}
         is(branchT.BNE) {branch_condition := (io.operandA =/= io.operandB)}
-        is(branchT.BLT) {branch_condition := (io.operandA.asSInt < io.operandB.asSInt)}
-        is(branchT.BGE) {branch_condition := (io.operandA.asSInt >= io.operandB.asSInt)}
-        is(branchT.BLTU){branch_condition := (io.operandA.asUInt < io.operandB.asUInt)}
-        is(branchT.BGEU){branch_condition := (io.operandA.asUInt >= io.operandB.asUInt)}
+        // is(branchT.BLT) {branch_condition := (io.operandA.asSInt < io.operandB.asSInt)}
+        // is(branchT.BGE) {branch_condition := (io.operandA.asSInt >= io.operandB.asSInt)}
+        // is(branchT.BLTU){branch_condition := (io.operandA.asUInt < io.operandB.asUInt)}
+        // is(branchT.BGEU){branch_condition := (io.operandA.asUInt >= io.operandB.asUInt)}
     }
 
     io.PCSrc := ((opcode === opcodeT.J_type) || (opcode === opcodeT.JR_type) || ((opcode === opcodeT.B_type) && (branch_condition === 1.U)))

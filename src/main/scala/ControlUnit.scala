@@ -63,8 +63,8 @@ class ControlUnit extends  Module {
         }
         is(opcodeT.L_type) { io.ALUOp := isADD} // MemAddr = rs1 + imme
         is(opcodeT.S_type) { io.ALUOp := isADD} // MemAddr = rs1 + imme
-        is(opcodeT.U_type) { io.ALUOp := isPASSB} // rd -> Imm
-        is(opcodeT.AU_type){ io.ALUOp := isADD} // rd -> PC + Imme
+        // is(opcodeT.U_type) { io.ALUOp := isPASSB} // rd -> Imm
+        // is(opcodeT.AU_type){ io.ALUOp := isADD} // rd -> PC + Imme
         is(opcodeT.J_type) { io.ALUOp := isADD} // rd -> PC + 4
         is(opcodeT.JR_type){ io.ALUOp := isADD } // rd -> PC + 4
         is(opcodeT.B_type) { io.ALUOp := invalid} // branch unit handles this operation
@@ -74,10 +74,13 @@ class ControlUnit extends  Module {
     val isJump = Wire(UInt(1.W))
     val useImmediate = Wire(UInt(1.W))
     isJump := (opcode === opcodeT.J_type) || (opcode === opcodeT.JR_type) 
-    isPCRelative  := (isJump === 1.U) || (opcode === opcodeT.AU_type)
-    useImmediate := (opcode === opcodeT.I_type) || (opcode === opcodeT.U_type) || (opcode === opcodeT.L_type) || (opcode === opcodeT.S_type) || (opcode === opcodeT.AU_type)
+    isPCRelative  := (isJump === 1.U)
+    // isPCRelative  := (isJump === 1.U) || (opcode === opcodeT.AU_type)
+    useImmediate := (opcode === opcodeT.I_type) || (opcode === opcodeT.L_type) || (opcode === opcodeT.S_type)
+    // useImmediate := (opcode === opcodeT.I_type) || (opcode === opcodeT.U_type) || (opcode === opcodeT.L_type) || (opcode === opcodeT.S_type) || (opcode === opcodeT.AU_type)
 
-    io.wrEn := (opcode === opcodeT.R_type) || (opcode === opcodeT.I_type) || (opcode === opcodeT.U_type) || (opcode === opcodeT.AU_type) || (opcode === opcodeT.L_type) || (isJump === 1.U)
+    io.wrEn := (opcode === opcodeT.R_type) || (opcode === opcodeT.I_type) || (opcode === opcodeT.L_type) || (isJump === 1.U)
+    // io.wrEn := (opcode === opcodeT.R_type) || (opcode === opcodeT.I_type) || (opcode === opcodeT.U_type) || (opcode === opcodeT.AU_type) || (opcode === opcodeT.L_type) || (isJump === 1.U)
     io.ALUSrcA := Mux((isPCRelative === 1.U), aluOpAPCMux.PC, aluOpAPCMux.forwardMuxA)
     io.ALUSrcB := Mux((useImmediate === 1.U), aluOpBImmMux.imme, (Mux((isJump === 1.U), aluOpBImmMux.plus4, aluOpBImmMux.forwardMuxB)))
     io.memtoReg := (opcode === opcodeT.L_type)
@@ -85,11 +88,11 @@ class ControlUnit extends  Module {
     io.memRd := memRdOpT.IDLE
     when(opcode === opcodeT.L_type){
         switch(funct3){
-            is("b000".U) {io.memRd := memRdOpT.LB}
-            is("b001".U) {io.memRd := memRdOpT.LH}
+            // is("b000".U) {io.memRd := memRdOpT.LB}
+            // is("b001".U) {io.memRd := memRdOpT.LH}
             is("b010".U) {io.memRd := memRdOpT.LW}
-            is("b100".U) {io.memRd := memRdOpT.LBU}
-            is("b101".U) {io.memRd := memRdOpT.LHU}
+            // is("b100".U) {io.memRd := memRdOpT.LBU}
+            // is("b101".U) {io.memRd := memRdOpT.LHU}
         }
     }
     .otherwise{io.memRd := memRdOpT.IDLE}
@@ -97,8 +100,8 @@ class ControlUnit extends  Module {
     io.memWr := memWrOpT.IDLE
     when(opcode === opcodeT.S_type){
         switch(funct3){
-            is("b000".U) {io.memWr := memWrOpT.SB}
-            is("b001".U) {io.memWr := memWrOpT.SH}
+            // is("b000".U) {io.memWr := memWrOpT.SB}
+            // is("b001".U) {io.memWr := memWrOpT.SH}
             is("b010".U) {io.memWr := memWrOpT.SW}
         }
     }
