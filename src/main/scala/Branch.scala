@@ -39,6 +39,6 @@ class BranchCheck extends Module{
 
     io.PCSrc := ((opcode === opcodeT.J_type) || (opcode === opcodeT.JR_type) || ((opcode === opcodeT.B_type) && (branch_condition === 1.U)))
 
-    io.PC_JB := io.PC + (io.imme << 1.U)
+    io.PC_JB := Mux((opcode === opcodeT.JR_type), (io.operandA + io.imme), (io.PC + io.imme))
 }
 

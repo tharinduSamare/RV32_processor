@@ -59,7 +59,7 @@ class PipelinedRISCV32ITest extends AnyFlatSpec with ChiselScalatestTester {
         dut.io.result.expect(1.U)     // SLTU x13, x5, x4
         dut.clock.step(1)
         //   dut.io.result.expect("hFFFFFFFF".U)
-        for (_ <- 0 until 10) {
+        for (_ <- 0 until 20) {
             dut.clock.step(1)
         }
            
