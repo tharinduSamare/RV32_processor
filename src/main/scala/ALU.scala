@@ -24,8 +24,8 @@ class ALU extends Module {
     .elsewhen(io.ALUOp === isAND)  {io.aluResult := io.operandA & io.operandB}
     .elsewhen(io.ALUOp === isSLL)  {io.aluResult := io.operandA << io.operandB(4, 0)}
     .elsewhen(io.ALUOp === isSRL)  {io.aluResult := io.operandA >> io.operandB(4, 0)}
-    .elsewhen(io.ALUOp === isSRA)  {io.aluResult := io.operandA >> io.operandB(4, 0)}          // automatic sign extension, if SInt datatype is use
-    .elsewhen(io.ALUOp === isSLT)  {io.aluResult := Mux(io.operandA < io.operandB, 1.U, 0.U)}  // automatic sign extension, if SInt datatype is use
+    .elsewhen(io.ALUOp === isSRA)  {io.aluResult := (io.operandA.asSInt >> io.operandB(4, 0)).asUInt}          // automatic sign extension, if SInt datatype is use
+    .elsewhen(io.ALUOp === isSLT)  {io.aluResult := Mux(io.operandA.asSInt < io.operandB.asSInt, 1.U, 0.U)}  // automatic sign extension, if SInt datatype is use
     .elsewhen(io.ALUOp === isSLTU) {io.aluResult := Mux(io.operandA < io.operandB, 1.U, 0.U)}
     .elsewhen(io.ALUOp === isPASSB){io.aluResult := io.operandB} // pass immediate value (OperandB) to result
     .otherwise                     {io.aluResult := "h_FFFF_FFFF".U} // = 2^32 - 1; self-defined encoding for invalid operation, value is unlikely to be reached in a regular arithmetic operation

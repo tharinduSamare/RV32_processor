@@ -17,7 +17,7 @@ class ImmediateGen extends Module {
     val I_imme = Cat(Fill(20, io.instr(31)), io.instr(31,20))
     val S_imme = Cat(Fill(20, io.instr(31)), io.instr(31,25), io.instr(11,7))
     val B_imme = Cat(Fill(20, io.instr(31)), io.instr(7), io.instr(30,25), io.instr(11,8), 0.U)
-    val U_imme = Cat(io.instr(31,12), 0.U)
+    val U_imme = Cat(io.instr(31,12), Fill(12,0.U))
     val J_imme = Cat(Fill(12, io.instr(31)), io.instr(19,12), io.instr(20), io.instr(30,25), io.instr(24,21), 0.U)
 
     io.imme := 0.U // default case
