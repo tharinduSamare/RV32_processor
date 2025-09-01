@@ -16,22 +16,15 @@ import aluOpBMux._
 class IFBarrier extends Module {
     val io = IO(new Bundle {
         val if_stall = Input(UInt(1.W))
+        val flush = Input(UInt(1.W))
         val inInstr  = Input(UInt(32.W))
         val inPC     = Input(UInt(32.W))
         val outInstr = Output(UInt(32.W))
         val outPC    = Output(UInt(32.W))
     })
 
-    val instrReg = RegInit(0x00000013.U(32.W)) // ADDI x0, x0, 0
-    val pcReg = RegInit(0.U(32.W))
-
-    when(io.if_stall === 0.U){
-        instrReg := io.inInstr
-        pcReg    := io.inPC
-    }
-
-    io.outInstr := instrReg
-    io.outPC    := pcReg
+    io.outInstr := RegNext(Mux((io.flush === 0.U), io.inInstr, 0x00000013.U), 0x00000013.U) // reset: ADDI x0, x0, 0
+    io.outPC    := RegNext(Mux((io.flush === 0.U), io.inPC, 0.U), 0.U)
 
 }
 
@@ -42,6 +35,7 @@ class IFBarrier extends Module {
 
 class IDBarrier extends Module {
     val io = IO(new Bundle {
+        val flush    = Input(UInt(1.W))
         val inALUOp     = Input(ALUOpT())
         val inInstr     = Input(UInt(32.W))
         val inRS1       = Input(UInt(5.W))
@@ -74,20 +68,20 @@ class IDBarrier extends Module {
         val outWrEn     = Output(UInt(1.W))
     })
 
-    io.outALUOp := RegNext(io.inALUOp, ALUOpT.invalid)
-    io.outInstr := RegNext(io.inInstr, 0x00000013.U) // ADDI x0, x0, 0
-    io.outRD  := RegNext(io.inRD, 0.U)
-    io.outRS1 := RegNext(io.inRS1, 0.U)
-    io.outRS2 := RegNext(io.inRS2, 0.U)
-    io.outOperandA := RegNext(io.inOperandA, 0.U)
-    io.outOperandB := RegNext(io.inOperandB, 0.U)
-    io.outImme  := RegNext(io.inImme, 0.U)
-    io.outPC    := RegNext(io.inPC, 0.U)
-    io.outAluSrcA:= RegNext(io.inAluSrcA, aluOpAPCMux.forwardMuxA)
-    io.outAluSrcB:= RegNext(io.inAluSrcB, aluOpBImmMux.forwardMuxB)
-    io.outWrEn  := RegNext(io.inWrEn, 0.U)
-    io.outMemRd := RegNext(io.inMemRd, memRdOpT.IDLE)
-    io.outMemWr := RegNext(io.inMemWr, memWrOpT.IDLE)
+    io.outALUOp    := RegNext(Mux((io.flush === 0.U), io.inALUOp, ALUOpT.isADD), ALUOpT.invalid)
+    io.outInstr    := RegNext(Mux((io.flush === 0.U), io.inInstr, 0x00000013.U), 0x00000013.U) // ADDI x0, x0, 0
+    io.outRD       := RegNext(Mux((io.flush === 0.U), io.inRD, 0.U), 0.U)
+    io.outRS1      := RegNext(Mux((io.flush === 0.U), io.inRS1, 0.U), 0.U)
+    io.outRS2      := RegNext(Mux((io.flush === 0.U), io.inRS2, 0.U), 0.U)
+    io.outOperandA := RegNext(Mux((io.flush === 0.U), io.inOperandA, 0.U), 0.U)
+    io.outOperandB := RegNext(Mux((io.flush === 0.U), io.inOperandB, 0.U), 0.U)
+    io.outImme     := RegNext(Mux((io.flush === 0.U), io.inImme, 0.U), 0.U)
+    io.outPC       := RegNext(Mux((io.flush === 0.U), io.inPC, 0.U), 0.U)
+    io.outAluSrcA  := RegNext(Mux((io.flush === 0.U), io.inAluSrcA, aluOpAPCMux.forwardMuxA), aluOpAPCMux.forwardMuxA)
+    io.outAluSrcB  := RegNext(Mux((io.flush === 0.U), io.inAluSrcB, aluOpBImmMux.forwardMuxB), aluOpBImmMux.forwardMuxB)
+    io.outWrEn     := RegNext(Mux((io.flush === 0.U), io.inWrEn, 0.U), 0.U)
+    io.outMemRd    := RegNext(Mux((io.flush === 0.U), io.inMemRd, memRdOpT.IDLE), memRdOpT.IDLE)
+    io.outMemWr    := RegNext(Mux((io.flush === 0.U), io.inMemWr, memWrOpT.IDLE), memWrOpT.IDLE)
     io.outMemtoReg := RegNext(io.inMemtoReg, 0.U)
 }
 

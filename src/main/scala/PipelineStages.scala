@@ -98,6 +98,7 @@ class EX extends Module {
         val aluResult = Output(UInt(32.W))
         val PCSrc     = Output(UInt(1.W))
         val PC_JB     = Output(UInt(32.W))
+        val flush     = Output(UInt(1.W))
     })
 
     val aluOpA = Mux((io.ALUSrcA === aluOpAPCMux.PC), io.PC, io.operandA)
@@ -118,6 +119,7 @@ class EX extends Module {
     BranchCheck_inst.io.operandB    := io.operandB
     io.PCSrc := BranchCheck_inst.io.PCSrc
     io.PC_JB := BranchCheck_inst.io.PC_JB
+    io.flush := BranchCheck_inst.io.flush
 }
 
 // -----------------------------------------

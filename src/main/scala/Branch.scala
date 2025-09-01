@@ -18,6 +18,7 @@ class BranchCheck extends Module{
         val operandB = Input(UInt(32.W))
         val PCSrc = Output(UInt(1.W))
         val PC_JB = Output(UInt(32.W))
+        val flush = Output(UInt(1.W))
     })
 
     val (opcode, opcode_cast) = opcodeT.safe(io.instr(6,0))
@@ -43,5 +44,6 @@ class BranchCheck extends Module{
                 Mux((opcode === opcodeT.J_type),  (io.PC + io.imme),
                 Mux((opcode === opcodeT.B_type),  (io.PC + io.imme),
                 (io.PC + io.imme))))
+    io.flush := io.PCSrc // need to flush IF, ID, EX stages
 }
 

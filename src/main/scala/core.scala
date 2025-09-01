@@ -60,6 +60,7 @@ class PipelinedRV32Icore extends Module {
     IFBarrier.io.inInstr  := IF.io.instr
     IFBarrier.io.inPC     := IF.io.pc
     IFBarrier.io.if_stall := HazardDetectionUnit_inst.io.if_stall
+    IFBarrier.io.flush    := EX.io.flush
 
     HazardDetectionUnit_inst.io.instr       := IFBarrier.io.outInstr
     HazardDetectionUnit_inst.io.ex_RD       := IDBarrier.io.outRD
@@ -88,6 +89,7 @@ class PipelinedRV32Icore extends Module {
     IDBarrier.io.inMemRd      := Mux((HazardDetectionUnit_inst.io.id_stall === 1.U), memRdOpT.IDLE, ControlUnit_inst.io.memRd)
     IDBarrier.io.inMemWr      := Mux((HazardDetectionUnit_inst.io.id_stall === 1.U), memWrOpT.IDLE, ControlUnit_inst.io.memWr)
     IDBarrier.io.inMemtoReg   := Mux((HazardDetectionUnit_inst.io.id_stall === 1.U), 0.U, ControlUnit_inst.io.memtoReg)
+    IDBarrier.io.flush        := EX.io.flush
 
     ForwardingUnit_inst.io.rs1_id   := IDBarrier.io.outRS1
     ForwardingUnit_inst.io.rs2_id   := IDBarrier.io.outRS2
