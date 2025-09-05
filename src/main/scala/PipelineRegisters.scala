@@ -23,8 +23,25 @@ class IFBarrier extends Module {
         val outPC    = Output(UInt(32.W))
     })
 
-    io.outInstr := RegNext(Mux((io.flush === 0.U), io.inInstr, 0x00000013.U), 0x00000013.U) // reset: ADDI x0, x0, 0
-    io.outPC    := RegNext(Mux((io.flush === 0.U), io.inPC, 0.U), 0.U)
+    val pc = RegInit(0.U(32.W))
+    val instr = RegInit(0x00000013.U(32.W))
+
+    when(io.if_stall === 0.U){
+        when(io.flush === 0.U){
+            instr := io.inInstr
+            pc := io.inPC
+        }
+        .otherwise{
+            instr := 0x00000013.U
+            pc := 0.U
+        }
+    }
+    .otherwise{
+        // keep the same value
+    }
+
+    io.outInstr := instr
+    io.outPC := pc
 
 }
 

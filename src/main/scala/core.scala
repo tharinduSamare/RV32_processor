@@ -82,13 +82,13 @@ class PipelinedRV32Icore extends Module {
     IDBarrier.io.inImme       := ID.io.imme
     IDBarrier.io.inPC         := IFBarrier.io.outPC
     IDBarrier.io.inRD         := ID.io.rd
-    IDBarrier.io.inWrEn       := Mux((HazardDetectionUnit_inst.io.id_stall === 1.U), 0.U, ControlUnit_inst.io.wrEn)
-    IDBarrier.io.inALUOp      := Mux((HazardDetectionUnit_inst.io.id_stall === 1.U), ALUOpT.invalid, ControlUnit_inst.io.ALUOp)
-    IDBarrier.io.inAluSrcA    := Mux((HazardDetectionUnit_inst.io.id_stall === 1.U), aluOpAPCMux.forwardMuxA, ControlUnit_inst.io.ALUSrcA)
-    IDBarrier.io.inAluSrcB    := Mux((HazardDetectionUnit_inst.io.id_stall === 1.U), aluOpBImmMux.forwardMuxB, ControlUnit_inst.io.ALUSrcB)
-    IDBarrier.io.inMemRd      := Mux((HazardDetectionUnit_inst.io.id_stall === 1.U), memRdOpT.IDLE, ControlUnit_inst.io.memRd)
-    IDBarrier.io.inMemWr      := Mux((HazardDetectionUnit_inst.io.id_stall === 1.U), memWrOpT.IDLE, ControlUnit_inst.io.memWr)
-    IDBarrier.io.inMemtoReg   := Mux((HazardDetectionUnit_inst.io.id_stall === 1.U), 0.U, ControlUnit_inst.io.memtoReg)
+    IDBarrier.io.inWrEn       := ControlUnit_inst.io.wrEn
+    IDBarrier.io.inALUOp      := ControlUnit_inst.io.ALUOp
+    IDBarrier.io.inAluSrcA    := ControlUnit_inst.io.ALUSrcA
+    IDBarrier.io.inAluSrcB    := ControlUnit_inst.io.ALUSrcB
+    IDBarrier.io.inMemRd      := ControlUnit_inst.io.memRd
+    IDBarrier.io.inMemWr      := ControlUnit_inst.io.memWr
+    IDBarrier.io.inMemtoReg   := ControlUnit_inst.io.memtoReg
     IDBarrier.io.flush        := EX.io.flush
 
     ForwardingUnit_inst.io.rs1_id   := IDBarrier.io.outRS1
@@ -110,12 +110,12 @@ class PipelinedRV32Icore extends Module {
     switch(ForwardingUnit_inst.io.aluOpA_ctrl){
         is(aluOpAMux.opA_id)        {EX.io.operandA := IDBarrier.io.outOperandA}
         is(aluOpAMux.AluResult_mem) {EX.io.operandA := EXBarrier.io.outAluResult}
-        is(aluOpAMux.AluResult_wb)  {EX.io.operandA := MEMBarrier.io.outAluResult}
+        is(aluOpAMux.AluResult_wb)  {EX.io.operandA := WB.io.regFileReq.data}
     }
     switch(ForwardingUnit_inst.io.aluOpB_ctrl){
         is(aluOpBMux.opB_id)        {EX.io.operandB := IDBarrier.io.outOperandB}
         is(aluOpBMux.AluResult_mem) {EX.io.operandB := EXBarrier.io.outAluResult}
-        is(aluOpBMux.AluResult_wb)  {EX.io.operandB := MEMBarrier.io.outAluResult}
+        is(aluOpBMux.AluResult_wb)  {EX.io.operandB := WB.io.regFileReq.data}
     }
 
     EXBarrier.io.inAluResult  := EX.io.aluResult

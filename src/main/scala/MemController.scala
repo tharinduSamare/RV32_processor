@@ -16,7 +16,7 @@ class MemController extends Module{
         val dmem = Flipped(new DMEM_IO)
     })
 
-    io.dmem.addr := io.addr
+    io.dmem.addr := io.addr>>2 // byte address to word address convert
 
     io.rData := 0.U
     switch(io.rdOp){
@@ -42,13 +42,13 @@ class MemController extends Module{
         is(memRdOpT.LH){
             switch(io.addr(1,1)){ // [TODO] check this syntax ***************************************
                 is("b0".U){io.rData := Cat(Fill(16, io.dmem.rData(15)), io.dmem.rData(15,0))}
-                is("b1".U){io.rData := Cat(Fill(24, io.dmem.rData(31)), io.dmem.rData(31,16))}
+                is("b1".U){io.rData := Cat(Fill(16, io.dmem.rData(31)), io.dmem.rData(31,16))}
             }
         }
         is(memRdOpT.LHU){
             switch(io.addr(1,1)){ // [TODO] check this syntax ***************************************
                 is("b0".U){io.rData := Cat(Fill(16, 0.U), io.dmem.rData(15,0))}
-                is("b1".U){io.rData := Cat(Fill(24, 0.U), io.dmem.rData(31,16))}
+                is("b1".U){io.rData := Cat(Fill(16, 0.U), io.dmem.rData(31,16))}
             }
         }
         is(memRdOpT.LW){io.rData := io.dmem.rData}

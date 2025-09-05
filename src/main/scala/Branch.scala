@@ -45,5 +45,9 @@ class BranchCheck extends Module{
                 Mux((opcode === opcodeT.B_type),  (io.PC + io.imme),
                 (io.PC + io.imme))))
     io.flush := io.PCSrc // need to flush IF, ID, EX stages
+
+    val flush_reg = RegNext(io.PCSrc, 0.U)
+    io.flush := (io.PCSrc === 1.U) || (flush_reg === 1.U) 
+
 }
 
