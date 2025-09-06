@@ -38,7 +38,7 @@ module PipelinedRV32I_tb();
         .mem_if(imem_if)
     );
 
-    data_mem dmem(
+    data_mem #(.MEM_INIT_FILE(IMEM_INIT_FILE))dmem(
         .mem_if(dmem_if)
     );
 
@@ -80,11 +80,17 @@ assign mem_if.instr = mem[mem_if.pc>>2];
 
 endmodule
 
-module data_mem(
+module data_mem#(
+    parameter string MEM_INIT_FILE = IMEM_INIT_FILE
+    )(
     dmem_if mem_if
 );
 
 logic [DATA_WIDTH-1:0]mem[0:DMEM_DEPTH-1];
+
+initial begin
+    $readmemh(MEM_INIT_FILE, mem); 
+end
 
 always_ff @(posedge mem_if.clk) begin
     if(mem_if.wrEn) begin
