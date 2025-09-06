@@ -120,7 +120,7 @@ class PipelinedRV32Icore extends Module {
 
     EXBarrier.io.inAluResult  := EX.io.aluResult
     EXBarrier.io.inRD         := IDBarrier.io.outRD
-    EXBarrier.io.inMemWrData  := IDBarrier.io.outOperandB
+    EXBarrier.io.inMemWrData  := EX.io.operandB // output of forward mux
     EXBarrier.io.inMemRd      := IDBarrier.io.outMemRd
     EXBarrier.io.inMemWr      := IDBarrier.io.outMemWr
     EXBarrier.io.inMemtoReg   := IDBarrier.io.outMemtoReg

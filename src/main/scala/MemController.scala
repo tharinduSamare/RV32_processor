@@ -60,15 +60,15 @@ class MemController extends Module{
         is(memWrOpT.SB){
             switch(io.addr(1,0)){
                 is("b00".U){io.dmem.wData := Cat(io.dmem.rData(31,8), io.wData(7,0))}
-                is("b01".U){io.dmem.wData := Cat(io.dmem.rData(31,16), io.wData(15,8), io.dmem.rData(7,0))}
-                is("b10".U){io.dmem.wData := Cat(io.dmem.rData(31,24), io.wData(23,16), io.dmem.rData(15,0))}
-                is("b11".U){io.dmem.wData := Cat(io.wData(31,24), io.dmem.rData(24,0))}
+                is("b01".U){io.dmem.wData := Cat(io.dmem.rData(31,16), io.wData(7,0), io.dmem.rData(7,0))}
+                is("b10".U){io.dmem.wData := Cat(io.dmem.rData(31,24), io.wData(7,0), io.dmem.rData(15,0))}
+                is("b11".U){io.dmem.wData := Cat(io.wData(7,0), io.dmem.rData(23,0))}
             }
         }
         is(memWrOpT.SH){
             switch(io.addr(1,1)){
                 is("b0".U){io.dmem.wData := Cat(io.dmem.rData(31,16), io.wData(15,0))}
-                is("b1".U){io.dmem.wData := Cat(io.wData(31,16), io.dmem.rData(15,0))}
+                is("b1".U){io.dmem.wData := Cat(io.wData(15,0), io.dmem.rData(15,0))}
             }
         }
         is(memWrOpT.SW){
