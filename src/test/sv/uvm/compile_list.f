@@ -18,9 +18,23 @@
 ../src/test/sv/uvm/dmem_agent/dmem_slv_driver.sv
 ../src/test/sv/uvm/dmem_agent/dmem_agent.sv
 
+../src/test/sv/uvm/alu_tb/alu_if.sv
+
+../src/test/sv/uvm/alu_tb/alu_seq_item.sv
+../src/test/sv/uvm/alu_tb/alu_sequence.sv
+
+../src/test/sv/uvm/alu_tb/alu_driver.sv
+../src/test/sv/uvm/alu_tb/alu_monitor.sv
+../src/test/sv/uvm/alu_tb/alu_agent.sv
+../src/test/sv/uvm/alu_tb/alu_scoreboard.sv
+../src/test/sv/uvm/alu_tb/alu_env.sv
+
 ../src/test/sv/uvm/top/config.sv
 ../src/test/sv/uvm/top/scoreboard.sv
 ../src/test/sv/uvm/top/env.sv
 
 ../src/test/sv/uvm/top/base_test.sv
+../src/test/sv/uvm/alu_tb/alu_test.sv
+
 ../src/test/sv/uvm/top/top_tb.sv
+../src/test/sv/uvm/alu_tb/alu_tb.sv

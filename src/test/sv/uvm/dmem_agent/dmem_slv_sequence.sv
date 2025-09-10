@@ -34,7 +34,7 @@ class dmem_slv_sequence extends uvm_sequence;
             if(!rsp.wrEn) begin // read req
                 if(!dmem.exists(rsp.addr)) begin
                     bit [DATA_WIDTH-1:0]data_val;
-                    std::randomize(data_val);
+                    void'(std::randomize(data_val));
                     dmem[rsp.addr] = data_val;
                 end
                 rsp.data_out = dmem[rsp.addr];
