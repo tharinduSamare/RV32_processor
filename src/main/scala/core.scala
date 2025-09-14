@@ -28,6 +28,8 @@ class IMEM_IO extends Bundle{
 class PipelinedRV32Icore extends Module {
     val io = IO(new Bundle {
         val check_res = Output(UInt(32.W))
+        val coreDone = Output(UInt(1.W))
+        val gpRegVal = Output(UInt(32.W)) // gp (x3) reg is contains the riscv-tests pass fail status
         val dmem = Flipped(new DMEM_IO)
         val imem = Flipped(new IMEM_IO)
     })
@@ -149,7 +151,9 @@ class PipelinedRV32Icore extends Module {
 
     WBBarrier.io.inCheckRes   := WB.io.check_res
 
-    io.check_res              := WBBarrier.io.outCheckRes
+    io.check_res := WBBarrier.io.outCheckRes
+    io.coreDone  := HazardDetectionUnit_inst.io.coreDone
+    io.gpRegVal  := RegFile_inst.io.gpRegVal
 
 }
 

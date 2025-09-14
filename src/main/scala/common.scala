@@ -33,6 +33,7 @@ object opcodeT extends  ChiselEnum {
     val B_type  = Value("b1100011".U)
     val JR_type = Value("b1100111".U) // JALR (I_type)
     val J_type  = Value("b1101111".U)
+    val unimp   = Value("b1110011".U) // Unimplemented (finish of simulation)
 }
 
 object branchT extends ChiselEnum {

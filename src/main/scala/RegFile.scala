@@ -26,6 +26,7 @@ class RegFile extends Module {
     val req_2  = new regFileReadReq
     val resp_2 = new regFileReadResp
     val req_3  = new regFileWriteReq
+    val gpRegVal = Output(UInt(32.W))
 })
 
   val RegFile_inst = Mem(32, UInt(32.W))
@@ -39,6 +40,8 @@ class RegFile extends Module {
 
   io.resp_1.data := Mux((io.req_1.addr === 0.U), 0.U, (Mux((io.req_1.addr === io.req_3.addr), io.req_3.data, RegFile_inst(io.req_1.addr))))
   io.resp_2.data := Mux((io.req_2.addr === 0.U), 0.U, (Mux((io.req_2.addr === io.req_3.addr), io.req_3.data, RegFile_inst(io.req_2.addr))))
+
+  io.gpRegVal := RegFile_inst(3) // gp (x3) reg is contains the riscv-tests pass fail status
 
 }
 

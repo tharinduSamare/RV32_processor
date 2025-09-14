@@ -16,6 +16,8 @@ class PipelinedRV32I (BinaryFile: String) extends Module {
 
   val io     = IO(new Bundle {
     val result = Output(UInt(32.W)) 
+    val coreDone = Output(UInt(1.W)) // unimp instruction has occured 
+    val gpRegVal = Output(UInt(32.W)) // gp (x3) reg contains the riscv-tests pass fail status
   })
   
   val core   = Module(new PipelinedRV32Icore)
@@ -23,7 +25,9 @@ class PipelinedRV32I (BinaryFile: String) extends Module {
   val DMem = Module(new DMEM(4096))
   loadMemoryFromFile(IMem, BinaryFile)
 
-  io.result  := core.io.check_res
+  io.result   := core.io.check_res
+  io.coreDone := core.io.coreDone
+  io.gpRegVal := core.io.gpRegVal
   core.io.imem.instr := IMem(core.io.imem.PC>>2.U)
 
   core.io.dmem <> DMem.io

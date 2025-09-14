@@ -13,10 +13,12 @@ class HazardDetectionUnit extends  Module {
         val id_stall = Output(UInt(1.W))
         val if_stall = Output(UInt(1.W))
         val pcWrite = Output(UInt(1.W))
+        val coreDone = Output(UInt(1.W)) // unImp instruction has occured 
     })
 
     val (opcode, opcode_cast) = opcodeT.safe(io.instr(6,0))
-    assert(opcode_cast, "Opcode must be a valid one, got 0x%x.", io.instr(6,0))
+    assert(opcode_cast, "Opcode must be a valid one, got 0x%x.\n", io.instr(6,0))
+
     val id_rs1 = io.instr(19,15)
     val id_rs2 = io.instr(24,20)
 
@@ -38,4 +40,13 @@ class HazardDetectionUnit extends  Module {
         io.id_stall := 0.U
         io.pcWrite := 1.U
     }
+
+    // test finish condition
+    val coreDone = RegInit(0.U(1.W))
+    coreDone := 0.U
+    when(opcode === opcodeT.unimp){
+        printf("Unimplemented opcode (0x73): end of test\n")
+        coreDone := 1.U
+    }
+    io.coreDone := coreDone
 }
