@@ -21,13 +21,15 @@ class imem_slv_driver extends uvm_driver #(imem_slv_seq_item, imem_slv_seq_item)
         super.run_phase(phase);
 
         forever begin
-            `uvm_info(get_type_name(), $sformatf("Waiting for instruction from sequencer"), UVM_LOW)
+            `uvm_info(get_type_name(), $sformatf("Waiting for instruction from sequencer"), UVM_DEBUG)
             seq_item_port.get_next_item(req);
             setup_phase(req);
+            `uvm_info(get_type_name(), $sformatf("pc: 0x%0x", req.pc), UVM_DEBUG)
             seq_item_port.item_done();
 
             seq_item_port.get_next_item(rsp);
             access_phase(rsp);
+            `uvm_info(get_type_name(), $sformatf("pc: 0x%0x, instr: 0x%0x", rsp.pc, rsp.instr), UVM_DEBUG)
             seq_item_port.item_done();
         end
     endtask

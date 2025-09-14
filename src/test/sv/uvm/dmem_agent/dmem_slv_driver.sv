@@ -21,7 +21,7 @@ class dmem_slv_driver extends uvm_driver #(dmem_slv_seq_item, dmem_slv_seq_item)
         super.run_phase(phase);
 
         forever begin
-            `uvm_info(get_type_name(), $sformatf("Waiting for instruction from sequencer"), UVM_LOW)
+            `uvm_info(get_type_name(), $sformatf("Waiting for instruction from sequencer"), UVM_DEBUG)
             seq_item_port.get_next_item(req);
             setup_phase(req);
             seq_item_port.item_done();

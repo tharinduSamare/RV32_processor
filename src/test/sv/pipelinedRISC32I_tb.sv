@@ -67,15 +67,6 @@ initial begin
     $readmemh(MEM_INIT_FILE, mem); 
 end
 
-// always_ff@(posedge mem_if.clk) begin
-//     if(!mem_if.rstn) begin
-//         mem_if.instr <= '0;
-//     end
-//     else begin
-//         mem_if.instr <= mem[mem_if.pc>>2];
-//     end
-// end
-
 assign mem_if.instr = mem[mem_if.pc>>2];
 
 endmodule

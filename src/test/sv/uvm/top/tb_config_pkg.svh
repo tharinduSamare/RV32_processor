@@ -6,6 +6,10 @@ package tb_config_pkg;
     parameter int IMEM_DEPTH = 32'h4000;
     parameter int DMEM_DEPTH = 32'h4000;
     parameter string IMEM_INIT_FILE = "/home/tharindu/software/riscv/riscv-tests2/isa/rv32ui-p-and.hex"; // path relative to the build folder
+    parameter string DMEM_INIT_FILE = IMEM_INIT_FILE; // Initialize .data section
+
+    parameter string RISCV_TESTS_DIR = "/home/tharindu/software/riscv/riscv-tests2/isa/";
+    string TESTS[4] = '{ "and", "andi", "add", "addi" };
 
     typedef enum logic [7:0] { 
         isADD   = 8'h1,
@@ -20,21 +24,5 @@ package tb_config_pkg;
         isSLTU  = 8'hA,
         isPASSB = 8'hB
      } ALUOpT;
-//     object ALUOpT extends ChiselEnum {
-
-//   val isADD   = Value(0x01.U)
-//   val isSUB   = Value(0x02.U)
-//   val isXOR   = Value(0x03.U)
-//   val isOR    = Value(0x04.U)
-//   val isAND   = Value(0x05.U)
-//   val isSLL   = Value(0x06.U)
-//   val isSRL   = Value(0x07.U)
-//   val isSRA   = Value(0x08.U)
-//   val isSLT   = Value(0x09.U)
-//   val isSLTU  = Value(0x0A.U)
-//   val isPASSB = Value(0x0B.U) // aluResult = operandB
-
-//   val invalid = Value(0xFF.U)
-// }
 
 endpackage
