@@ -5,11 +5,12 @@ package tb_config_pkg;
     parameter int PC_WIDTH = 32;
     parameter int IMEM_DEPTH = 32'h4000;
     parameter int DMEM_DEPTH = 32'h4000;
-    parameter string IMEM_INIT_FILE = "/home/tharindu/software/riscv/riscv-tests2/isa/rv32ui-p-and.hex"; // path relative to the build folder
+    parameter string IMEM_INIT_FILE = "/home/tharindu/software/riscv/riscv-tests2/isa/rv32ui-p-sb.hex"; // path relative to the build folder
     parameter string DMEM_INIT_FILE = IMEM_INIT_FILE; // Initialize .data section
 
     parameter string RISCV_TESTS_DIR = "/home/tharindu/software/riscv/riscv-tests2/isa/";
-    string TESTS[4] = '{ "and", "andi", "add", "addi" };
+    string TESTS[] = '{ "lui", "auipc", "jal", "jalr", "beq", "bne", "blt", "bge", "bltu", "bgeu", "lb", "lh", "lw", "lbu", "lhu", "sb", "sh", "sw", "addi", "slti", "sltiu", "xori", "ori", "andi", "slli", "srli", "srai", "add", "sub", "sll", "slt", "sltu", "xor", "srl", "sra", "or", "and"};
+    // string TESTS[] = '{"and"};
 
     typedef enum logic [7:0] { 
         isADD   = 8'h1,

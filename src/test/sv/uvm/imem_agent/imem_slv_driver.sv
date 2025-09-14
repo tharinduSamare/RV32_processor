@@ -21,27 +21,28 @@ class imem_slv_driver extends uvm_driver #(imem_slv_seq_item, imem_slv_seq_item)
         super.run_phase(phase);
 
         forever begin
-            `uvm_info(get_type_name(), $sformatf("Waiting for instruction from sequencer"), UVM_DEBUG)
-            seq_item_port.get_next_item(req);
-            setup_phase(req);
-            `uvm_info(get_type_name(), $sformatf("pc: 0x%0x", req.pc), UVM_DEBUG)
-            seq_item_port.item_done();
+            @(imem_vif.cb) begin
+                `uvm_info(get_type_name(), $sformatf("Waiting for instruction from sequencer"), UVM_DEBUG)
+                seq_item_port.get_next_item(req);
+                setup_phase(req);
+                `uvm_info(get_type_name(), $sformatf("pc: 0x%0x", req.pc), UVM_DEBUG)
+                seq_item_port.item_done();
 
-            seq_item_port.get_next_item(rsp);
-            access_phase(rsp);
-            `uvm_info(get_type_name(), $sformatf("pc: 0x%0x, instr: 0x%0x", rsp.pc, rsp.instr), UVM_DEBUG)
-            seq_item_port.item_done();
+                seq_item_port.get_next_item(rsp);
+                access_phase(rsp);
+                `uvm_info(get_type_name(), $sformatf("pc: 0x%0x, instr: 0x%0x", rsp.pc, rsp.instr), UVM_DEBUG)
+                seq_item_port.item_done();
+                
+            end
         end
     endtask
 
     virtual task setup_phase(imem_slv_seq_item req);
-        // @(posedge imem_vif.clk); //[TODO] is this required????
         req.pc = imem_vif.pc;
     endtask
 
     virtual task access_phase(imem_slv_seq_item rsp);
         imem_vif.instr = rsp.instr;
-        @(posedge imem_vif.clk); //[TODO] Is this required???
     endtask
 
 

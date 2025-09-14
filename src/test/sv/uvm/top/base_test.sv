@@ -62,12 +62,13 @@ class base_test extends uvm_test;
                     `uvm_info(get_type_name(), $sformatf("=== Finish test: rv32ui-p-%0s ===", TESTS[i]), UVM_MEDIUM)
                 end
             join_any
+            disable fork;
 
             if(top_vif.io_gpRegVal == 32'b1)begin
                 `uvm_info(get_type_name(), $sformatf("rv32ui-p-%0s test PASS", TESTS[i]), UVM_LOW)
             end
             else begin
-                `uvm_info(get_type_name(), $sformatf("rv32ui-p-%0s test FAIL. regFile[gp]: 0x%0x", TESTS[i], top_vif.io_gpRegVal), UVM_LOW)
+                `uvm_error(get_type_name(), $sformatf("rv32ui-p-%0s test FAIL. regFile[gp]: 0x%0x", TESTS[i], top_vif.io_gpRegVal))
                 break;
             end
 
