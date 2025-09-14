@@ -39,7 +39,7 @@ class ForwardingUnit extends Module {
     val checkRS1 = Wire(UInt(1.W))
     val checkRS2 = Wire(UInt(1.W))
 
-    checkRS1 := (opcode === opcodeT.B_type) || (opcode === opcodeT.I_type) || (opcode === opcodeT.L_type) || (opcode === opcodeT.R_type) || (opcode === opcodeT.S_type)
+    checkRS1 := (opcode === opcodeT.B_type) || (opcode === opcodeT.I_type) || (opcode === opcodeT.L_type) || (opcode === opcodeT.R_type) || (opcode === opcodeT.S_type) || (opcode === opcodeT.JR_type)
     checkRS2 := (opcode === opcodeT.B_type) || (opcode === opcodeT.R_type) || (opcode === opcodeT.S_type)
 
     rs1_mem_hazard := ((checkRS1 === 1.U) && (io.rs1_id === io.rd_mem) && (io.wrEn_mem === 1.U))
