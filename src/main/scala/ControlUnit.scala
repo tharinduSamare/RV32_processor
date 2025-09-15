@@ -39,25 +39,25 @@ class ControlUnit extends  Module {
         is(opcodeT.R_type){
             when     ((funct3 === "b000".U) && (funct7 === "b0000000".U)) {io.ALUOp := isADD}
             .elsewhen((funct3 === "b000".U) && (funct7 === "b0100000".U)) {io.ALUOp := isSUB}
-            .elsewhen((funct3 === "b100".U) && (funct7 === "b0000000".U)) {io.ALUOp := isXOR}
+            // .elsewhen((funct3 === "b100".U) && (funct7 === "b0000000".U)) {io.ALUOp := isXOR}
             .elsewhen((funct3 === "b110".U) && (funct7 === "b0000000".U)) {io.ALUOp := isOR}
-            .elsewhen((funct3 === "b111".U) && (funct7 === "b0000000".U)) {io.ALUOp := isAND}
-            .elsewhen((funct3 === "b010".U) && (funct7 === "b0000000".U)) {io.ALUOp := isSLT}
-            .elsewhen((funct3 === "b011".U) && (funct7 === "b0000000".U)) {io.ALUOp := isSLTU}
+            // .elsewhen((funct3 === "b111".U) && (funct7 === "b0000000".U)) {io.ALUOp := isAND}
+            // .elsewhen((funct3 === "b010".U) && (funct7 === "b0000000".U)) {io.ALUOp := isSLT}
+            // .elsewhen((funct3 === "b011".U) && (funct7 === "b0000000".U)) {io.ALUOp := isSLTU}
             .elsewhen((funct3 === "b001".U) && (funct7 === "b0000000".U)) {io.ALUOp := isSLL}
-            .elsewhen((funct3 === "b101".U) && (funct7 === "b0000000".U)) {io.ALUOp := isSRL}
-            .elsewhen((funct3 === "b101".U) && (funct7 === "b0100000".U)) {io.ALUOp := isSRA}
+            // .elsewhen((funct3 === "b101".U) && (funct7 === "b0000000".U)) {io.ALUOp := isSRL}
+            // .elsewhen((funct3 === "b101".U) && (funct7 === "b0100000".U)) {io.ALUOp := isSRA}
             .otherwise {io.ALUOp := invalid}
         }
         is(opcodeT.I_type){
             when     ((funct3 === "b000".U)                             ) {io.ALUOp := isADD}
-            .elsewhen((funct3 === "b100".U)                             ) {io.ALUOp := isXOR}
+            // .elsewhen((funct3 === "b100".U)                             ) {io.ALUOp := isXOR}
             .elsewhen((funct3 === "b110".U)                             ) {io.ALUOp := isOR}
-            .elsewhen((funct3 === "b111".U)                             ) {io.ALUOp := isAND}
-            .elsewhen((funct3 === "b010".U)                             ) {io.ALUOp := isSLT}
-            .elsewhen((funct3 === "b011".U)                             ) {io.ALUOp := isSLTU}
+            // .elsewhen((funct3 === "b111".U)                             ) {io.ALUOp := isAND}
+            // .elsewhen((funct3 === "b010".U)                             ) {io.ALUOp := isSLT}
+            // .elsewhen((funct3 === "b011".U)                             ) {io.ALUOp := isSLTU}
             .elsewhen((funct3 === "b001".U) && (funct7 === "b0000000".U)) {io.ALUOp := isSLL}
-            .elsewhen((funct3 === "b101".U) && (funct7 === "b0000000".U)) {io.ALUOp := isSRL}
+            // .elsewhen((funct3 === "b101".U) && (funct7 === "b0000000".U)) {io.ALUOp := isSRL}
             .elsewhen((funct3 === "b101".U) && (funct7 === "b0100000".U)) {io.ALUOp := isSRA}
             .otherwise {io.ALUOp := invalid}
         }
@@ -85,11 +85,11 @@ class ControlUnit extends  Module {
     io.memRd := memRdOpT.IDLE
     when(opcode === opcodeT.L_type){
         switch(funct3){
-            is("b000".U) {io.memRd := memRdOpT.LB}
-            is("b001".U) {io.memRd := memRdOpT.LH}
+            // is("b000".U) {io.memRd := memRdOpT.LB}
+            // is("b001".U) {io.memRd := memRdOpT.LH}
             is("b010".U) {io.memRd := memRdOpT.LW}
-            is("b100".U) {io.memRd := memRdOpT.LBU}
-            is("b101".U) {io.memRd := memRdOpT.LHU}
+            // is("b100".U) {io.memRd := memRdOpT.LBU}
+            // is("b101".U) {io.memRd := memRdOpT.LHU}
         }
     }
     .otherwise{io.memRd := memRdOpT.IDLE}
@@ -97,8 +97,8 @@ class ControlUnit extends  Module {
     io.memWr := memWrOpT.IDLE
     when(opcode === opcodeT.S_type){
         switch(funct3){
-            is("b000".U) {io.memWr := memWrOpT.SB}
-            is("b001".U) {io.memWr := memWrOpT.SH}
+            // is("b000".U) {io.memWr := memWrOpT.SB}
+            // is("b001".U) {io.memWr := memWrOpT.SH}
             is("b010".U) {io.memWr := memWrOpT.SW}
         }
     }

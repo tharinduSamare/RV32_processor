@@ -32,10 +32,10 @@ class BranchCheck extends Module{
     switch(branch_func3){
         is(branchT.BEQ) {branch_condition := (io.operandA === io.operandB)}
         is(branchT.BNE) {branch_condition := (io.operandA =/= io.operandB)}
-        is(branchT.BLT) {branch_condition := (io.operandA.asSInt < io.operandB.asSInt)}
-        is(branchT.BGE) {branch_condition := (io.operandA.asSInt >= io.operandB.asSInt)}
-        is(branchT.BLTU){branch_condition := (io.operandA.asUInt < io.operandB.asUInt)}
-        is(branchT.BGEU){branch_condition := (io.operandA.asUInt >= io.operandB.asUInt)}
+        // is(branchT.BLT) {branch_condition := (io.operandA.asSInt < io.operandB.asSInt)}
+        // is(branchT.BGE) {branch_condition := (io.operandA.asSInt >= io.operandB.asSInt)}
+        // is(branchT.BLTU){branch_condition := (io.operandA.asUInt < io.operandB.asUInt)}
+        // is(branchT.BGEU){branch_condition := (io.operandA.asUInt >= io.operandB.asUInt)}
     }
 
     io.PCSrc := ((opcode === opcodeT.J_type) || (opcode === opcodeT.JR_type) || ((opcode === opcodeT.B_type) && (branch_condition === 1.U)))
@@ -47,7 +47,7 @@ class BranchCheck extends Module{
     io.flush := io.PCSrc // need to flush IF, ID, EX stages
 
     val flush_reg = RegNext(io.PCSrc, 0.U)
-    io.flush := (io.PCSrc === 1.U) || (flush_reg === 1.U) 
+    io.flush := (io.PCSrc === 1.U) || (flush_reg === 1.U) // keep flush signal high for 2 cycles
 
 }
 
