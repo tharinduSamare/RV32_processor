@@ -1,6 +1,13 @@
-# RV32I Processor with riscv-tests supported UVM testbench
+# TinyRiscV Processor with riscv-tests supported UVM testbench
 
 - This is a 5-stage pipelined riscv32i processor using chisel HDL.
+- This supports a sub-set of RV32UI instructions. ([Tiny RISC-V ISA](https://www.csl.cornell.edu/courses/ece6745/handouts/ece6745-tinyrv-isa.txt) + few more)
+  - ADD, ADDI, MUL, ORI, SLLI
+  - LW, SW
+  - JAL, JR
+  - BNE, BEQ
+  - LUI, AUIPC
+  UNIMP
 - The UVM testbench capable of running [riscv-software-src/riscv-tests](https://github.com/riscv-software-src/riscv-tests)
 - Extra UVM testbench to verify the ALU functionality (for learning purposes)
 
