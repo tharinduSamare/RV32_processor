@@ -35,10 +35,13 @@ sbt run # Generate verilog from Chisel code inside generated-src folder
 cd RV32_processor/src/test/sv/uvm/
 source ./build.tcl
 ```
+![Processor UVM testbench](images/rv32core_uvm_tb.png)
 
 ## How to run uvm testbench on ALU
 - In RV32_processor/src/test/sv/uvm/build.tcl comment-out "RISCV-core tb" section and use "ALU tb" section.
 - Run build.tcl in vivado as mentioned in previous section.
+
+![ALU UVM testbench](images/alu_uvm_tb.png)
 
 ## How to simulate RV32_processor with the normal testbench in vivado
 - Create vivado project
