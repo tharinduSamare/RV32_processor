@@ -32,6 +32,9 @@ sbt run # Generate verilog from Chisel code inside generated-src folder
 - In `src/test/sv/uvm/top/tb_config_pkg.svh`
   - set `RISCV_TESTS_DIR` to `<riscv-test-repository path>/isa`
   - set the necessary tests in `TESTS[]` array.
+- In `src/test/sv/uvm/build.tcl`
+  - Set the `UVM_VERBOSITY` to required level (`UVM_NONE`, `UVM_LOW`, `UVM_MEDIUM`, `UVM_HIGH`, `UVM_FULL`, `UVM_DEBUG`)
+    - The higher the verbosity value, the more prints will be visible.
 - Run vivado and in vivado TCL terminal 
 ```
 cd RV32_processor/src/test/sv/uvm/
@@ -47,12 +50,13 @@ source ./build.tcl
 
 ## How to simulate RV32_processor with the normal testbench in vivado
 - Create vivado project
-- Set generated-src/PipelinedRV32I.v as a design source
+- Set `generated-src/PipelinedRV32I.v` as a design source
 - Set following files as simulation sources
-  - src/test/sv/pipelinedRISC32I_tb.sv
-  - src/test/sv/uvm/top/tb_config_pkg.svh
-  - src/test/sv/uvm/dmem_agent/dmem_if.sv
-  - src/test/sv/uvm/imem_agent/imem_if.sv
+  - `src/test/sv/pipelinedRISC32I_tb.sv`
+  - `src/test/sv/uvm/top/tb_config_pkg.svh`
+  - `src/test/sv/uvm/dmem_agent/dmem_if.sv`
+  - `src/test/sv/uvm/imem_agent/imem_if.sv`
 - Change `tb_config_pkg.svh` file type as systemverilog in vivado file settings
+- Set `IMEM_INIT_FILE` in `src/test/sv/uvm/top/tb_config_pkg.svh` to the required test's `.hex` file in `riscv-test` repository.
 - Run simulation
 
