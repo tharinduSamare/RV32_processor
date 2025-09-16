@@ -25,6 +25,9 @@ sbt run # Generate verilog from Chisel code inside generated-src folder
 - In `src/test/sv/uvm/top/tb_config_pkg.svh`
   - set `RISCV_TESTS_DIR` to `<riscv-test-repository path>/isa`
   - set the necessary tests in `TESTS[]` array.
+- In `src/test/sv/uvm/build.tcl`
+  - Set the `UVM_VERBOSITY` to required level (`UVM_NONE`, `UVM_LOW`, `UVM_MEDIUM`, `UVM_HIGH`, `UVM_FULL`, `UVM_DEBUG`)
+    - The higher the verbosity value, the more prints will be visible.
 - Run vivado and in vivado TCL terminal 
 ```
 cd RV32_processor/src/test/sv/uvm/
