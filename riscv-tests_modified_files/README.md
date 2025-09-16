@@ -1,7 +1,7 @@
-# How to modify riscv-tests to have only rv32ui unpreviledge instructions only.
+# How to modify riscv-tests to have only rv32ui unpriviledge instructions only.
 
 - By default the [riscv-tests](https://github.com/riscv-software-src/riscv-tests) generates assembly codes for rv32ui with privilege (csrr, csrw, csrwi, ecall, fense etc.) instructions.
-- Therefore, we can not use it on a simple rv32ui core (without previledge instructions).
+- Therefore, we can not use it on a simple rv32ui core (without priviledge instructions).
 - This folder is a patch to skip those assembly instructions.
 - Also, this patch will generate the corresponding .hex files that can be loaded using $readmemh to (instruction) memory. 
 
