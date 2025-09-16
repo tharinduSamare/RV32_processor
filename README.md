@@ -7,7 +7,7 @@
   - JAL, JR
   - BNE, BEQ
   - LUI, AUIPC
-  UNIMP
+  - UNIMP
 - The UVM testbench capable of running [riscv-software-src/riscv-tests](https://github.com/riscv-software-src/riscv-tests)
 - Extra UVM testbench to verify the ALU functionality (for learning purposes)
 
