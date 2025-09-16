@@ -11,9 +11,9 @@ $ git clone https://github.com/riscv/riscv-tests
 $ cd riscv-tests
 $ git submodule update --init --recursive
 ```
-- Replace `riscv-tests/env/p/link.ld` with `./env/p/link.ld`
-- Replace `riscv-tests/env/p/riscv_test.h` with `./env/p/riscv_test.h`
-- Replace `riscv-tests/isa/Makefile` with `./isa/Makefile`
+- Replace `riscv-tests/env/p/link.ld` with `RV32_PROCESSOR/riscv-tests_modified_files/env/p/link.ld`
+- Replace `riscv-tests/env/p/riscv_test.h` with `RV32_PROCESSOR/riscv-tests_modified_files/env/p/riscv_test.h`
+- Replace `riscv-tests/isa/Makefile` with `RV32_PROCESSOR/riscv-tests_modified_files/isa/Makefile`
 ```
 $ autoconf
 $ ./configure --prefix=$RISCV/target

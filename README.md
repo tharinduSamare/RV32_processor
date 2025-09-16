@@ -43,12 +43,13 @@ source ./build.tcl
 
 ## How to simulate RV32_processor with the normal testbench in vivado
 - Create vivado project
-- Set generated-src/PipelinedRV32I.v as a design source
+- Set `generated-src/PipelinedRV32I.v` as a design source
 - Set following files as simulation sources
-  - src/test/sv/pipelinedRISC32I_tb.sv
-  - src/test/sv/uvm/top/tb_config_pkg.svh
-  - src/test/sv/uvm/dmem_agent/dmem_if.sv
-  - src/test/sv/uvm/imem_agent/imem_if.sv
+  - `src/test/sv/pipelinedRISC32I_tb.sv`
+  - `src/test/sv/uvm/top/tb_config_pkg.svh`
+  - `src/test/sv/uvm/dmem_agent/dmem_if.sv`
+  - `src/test/sv/uvm/imem_agent/imem_if.sv`
 - Change `tb_config_pkg.svh` file type as systemverilog in vivado file settings
+- Set `IMEM_INIT_FILE` in `src/test/sv/uvm/top/tb_config_pkg.svh` to the required test's `.hex` file in `riscv-test` repository.
 - Run simulation
 
