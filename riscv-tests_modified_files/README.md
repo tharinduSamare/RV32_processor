@@ -10,14 +10,15 @@
 $ git clone https://github.com/riscv/riscv-tests
 $ cd riscv-tests
 $ git submodule update --init --recursive
-$ autoconf
 ```
 - Replace `riscv-tests/env/p/link.ld` with `./env/p/link.ld`
 - Replace `riscv-tests/env/p/riscv_test.h` with `./env/p/riscv_test.h`
 - Replace `riscv-tests/isa/Makefile` with `./isa/Makefile`
 ```
-make
-make install
+$ autoconf
+$ ./configure --prefix=$RISCV/target
+$ make
+$ make install
 ```
 
 - This will generate .hex to be used to initialize instruction memory (and data memory).
