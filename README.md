@@ -10,8 +10,8 @@
 - Scala CLI ([How to install](https://www.chisel-lang.org/docs/installation))
 - Xilinx Vivado Design Suite (Tested on versions 2022.2, 2020.1)
 - riscv-tests ([git repo](https://github.com/riscv-software-src/riscv-tests))
-  - Need a modified version only without csr instructions.
-    - Available in frascati.eit.uni-kl.de server
+  - Need a modified version without privilege instructions.
+  - Follow [this readme](riscv-tests_modified_files/README.md) to patch riscv-tests repo.
 
 ## How to compile
 ```
@@ -22,8 +22,10 @@ sbt run # Generate verilog from Chisel code inside generated-src folder
 
 ## How to run uvm testbench on rv32i_processor
 
-- set RISCV_TESTS_DIR: repo path in RV32_processor/src/test/sv/uvm/top/tb_config_pkg.svh if it is different (don't need if run on frascati.eit.uni-kl.de server)
-- In vivado TCL terminal
+- In `src/test/sv/uvm/top/tb_config_pkg.svh`
+  - set `RISCV_TESTS_DIR` to `<riscv-test-repository path>/isa`
+  - set the necessary tests in `TESTS[]` array.
+- Run vivado and in vivado TCL terminal 
 ```
 cd RV32_processor/src/test/sv/uvm/
 source ./build.tcl
@@ -31,8 +33,8 @@ source ./build.tcl
 ![Processor UVM testbench](images/rv32core_uvm_tb.png)
 
 ## How to run uvm testbench on ALU
-- In RV32_processor/src/test/sv/uvm/build.tcl comment-out "RISCV-core tb" section and use "ALU tb" section.
-- Run build.tcl in vivado as mentioned in previous section.
+- In `src/test/sv/uvm/build.tcl` comment-out `RISCV-core tb` section and use `ALU tb` section.
+- Run `build.tcl` in vivado as mentioned in previous section.
 
 ![ALU UVM testbench](images/alu_uvm_tb.png)
 
@@ -44,6 +46,6 @@ source ./build.tcl
   - src/test/sv/uvm/top/tb_config_pkg.svh
   - src/test/sv/uvm/dmem_agent/dmem_if.sv
   - src/test/sv/uvm/imem_agent/imem_if.sv
-- Change tb_config_pkg.svh file type as systemverilog in vivado file settings
+- Change `tb_config_pkg.svh` file type as systemverilog in vivado file settings
 - Run simulation
 

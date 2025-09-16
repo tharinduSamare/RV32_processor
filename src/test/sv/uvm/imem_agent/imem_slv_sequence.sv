@@ -19,7 +19,7 @@ class imem_slv_sequence extends uvm_sequence;
             `uvm_warning(get_type_name(), $sformatf("Config_db did not have IMEM_INIT_FILE; using default %s", imem_init_file))
         end
         else begin
-            `uvm_info(get_type_name(), $sformatf("Initialize imem with : %0s", imem_init_file), UVM_LOW)
+            `uvm_info(get_type_name(), $sformatf("Initialize imem with : %0s", imem_init_file), UVM_DEFAULT)
         end
 
         $readmemh(imem_init_file, imem);
