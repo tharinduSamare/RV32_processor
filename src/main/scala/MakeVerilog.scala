@@ -11,11 +11,8 @@ import chiseltest._
 import org.scalatest.flatspec.AnyFlatSpec
 
 import PipelinedRV32I._
-import btb_pkg._
 
 
 object Verilog_Gen extends App {
   emitVerilog(new PipelinedRV32I("src/test/programs/BinaryFile"), Array("--target-dir", "generated-src"))
-  emitVerilog(new TwoBitPredictor, Array("--target-dir", "generated-src"))
-  emitVerilog(new TwoWayBTB(NSETS = 8), Array("--target-dir", "generated-src"))
 }
