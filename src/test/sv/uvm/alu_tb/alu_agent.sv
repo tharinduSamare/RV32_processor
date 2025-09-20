@@ -1,6 +1,6 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-import tb_config_pkg::*;
+import alu_tb_config_pkg::*;
 
 class alu_agent extends uvm_agent;
     `uvm_component_utils(alu_agent)

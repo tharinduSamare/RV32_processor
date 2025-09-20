@@ -1,6 +1,6 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-import tb_config_pkg::*;
+import alu_tb_config_pkg::*;
 
 class alu_seq_item extends uvm_sequence_item;
 
@@ -15,6 +15,10 @@ class alu_seq_item extends uvm_sequence_item;
         `uvm_field_enum (ALUOpT, ALUOp, UVM_DEFAULT)
         `uvm_field_int (aluResult, UVM_DEFAULT)
     `uvm_object_utils_end
+
+    constraint aluOp_c{
+        ALUOp inside { isADD, isSUB, isOR, isSLL, isSRA, isPASSB };
+    }
 
     virtual function string convert2str();
         return $sformatf("operandA: 0x%0x, operandB: 0x%0x, operation: %0p, aluResult: 0x%0x", operandA, operandB, ALUOp, aluResult);

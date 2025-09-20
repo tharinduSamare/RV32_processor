@@ -1,4 +1,4 @@
-import tb_config_pkg::*;
+import alu_tb_config_pkg::*;
 
 interface alu_if (input clk);
     logic [DATA_WIDTH-1:0] operandA;

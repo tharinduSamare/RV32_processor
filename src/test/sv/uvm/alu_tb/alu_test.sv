@@ -1,3 +1,5 @@
+import alu_tb_config_pkg::*;
+
 class alu_test extends uvm_test;
     `uvm_component_utils(alu_test)
 
@@ -28,7 +30,6 @@ class alu_test extends uvm_test;
         
         seq.randomize() with {iteration_count inside {[20:30]};};
         seq.start(env.agent.sequencer);
-        #200;
         phase.drop_objection(this);
     endtask
 endclass

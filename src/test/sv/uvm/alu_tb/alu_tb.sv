@@ -1,14 +1,11 @@
 `include "uvm_macros.svh"
 import uvm_pkg::*;
-import tb_config_pkg::*;
+import alu_tb_config_pkg::*;
 
 module alu_tb();
 
 timeunit 1ns;
 timeprecision 1ns;
-
-localparam real CLK_FREQ = 100; //MHz
-localparam real CLK_PERIOD = 1000 / CLK_FREQ; // ns
 
 logic clk;
 logic rst = 1'b0;
