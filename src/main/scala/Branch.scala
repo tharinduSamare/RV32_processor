@@ -24,7 +24,7 @@ class BranchCheck extends Module{
     val (opcode, opcode_cast) = opcodeT.safe(io.instr(6,0))
     val (branch_func3, func3_cast) = branchT.safe(io.instr(14,12))
     assert(opcode_cast, "Opcode must be a valid one, got 0x%x.", io.instr(6,0))
-    assert(func3_cast, "Opcode must be a valid one, got 0x%x.", io.instr(14,12))
+    assert(((opcode =/= opcodeT.B_type) || func3_cast), "Branch type must be a valid one, got 0x%x.", io.instr(14,12))
 
     val branch_condition = Wire(UInt(1.W))
 

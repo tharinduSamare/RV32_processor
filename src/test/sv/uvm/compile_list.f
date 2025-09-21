@@ -1,6 +1,6 @@
 // paths are given with respect to build folder
 ../generated-src/PipelinedRV32I.v
-../src/test/sv/uvm/top/tb_config_pkg.svh
+../src/test/sv/uvm/top/tb_config_pkg.sv
 ../src/test/sv/uvm/imem_agent/imem_if.sv
 ../src/test/sv/uvm/dmem_agent/dmem_if.sv
 ../src/test/sv/uvm/top/top_if.sv
