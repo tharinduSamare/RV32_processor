@@ -9,14 +9,9 @@ object ALUOpT extends ChiselEnum {
 
   val isADD   = Value(0x01.U)
   val isSUB   = Value(0x02.U)
-  val isXOR   = Value(0x03.U)
   val isOR    = Value(0x04.U)
-  val isAND   = Value(0x05.U)
   val isSLL   = Value(0x06.U)
-  val isSRL   = Value(0x07.U)
   val isSRA   = Value(0x08.U)
-  val isSLT   = Value(0x09.U)
-  val isSLTU  = Value(0x0A.U)
   val isPASSB = Value(0x0B.U) // aluResult = operandB
 
   val invalid = Value(0xFF.U)
@@ -39,12 +34,7 @@ object opcodeT extends  ChiselEnum {
 object branchT extends ChiselEnum {
     val BEQ  = Value("b000".U)
     val BNE  = Value("b001".U)
-    val INV1 = Value("b010".U) // invalid value for branch opcode
-    val INV2 = Value("b011".U) // invalid value for branch opcode
-    val BLT  = Value("b100".U)
-    val BGE  = Value("b101".U)
-    val BLTU = Value("b110".U)
-    val BGEU = Value("b111".U)
+    val BGEU = Value("b111".U) // Keep this even BGEU is not implemented. Otherwise, compiler will use only 1 bit to represent BEQ & BNE
 }
 
 object aluOpAMux extends  ChiselEnum { // ForwardingUnit_inst mux for ALU opB
@@ -62,27 +52,9 @@ object aluOpAPCMux extends ChiselEnum {
 }
 
 object memWrOpT extends  ChiselEnum {
-    val SB, SH, SW, IDLE = Value
+    val SW, IDLE = Value
 }
 
 object memRdOpT extends ChiselEnum {
-    val LB, LH, LW, LBU, LHU, IDLE = Value
-}
-
-object csrT extends ChiselEnum {
-    val is_stvec   = Value(0x105.U)
-
-    val is_mhartid = Value(0xF14.U)
-
-    val is_mstatus = Value(0x300.U)
-    val is_misa    = Value(0x301.U)
-    val is_medeleg = Value(0x302.U)
-    val is_mideleg = Value(0x303.U)
-    val is_mie     = Value(0x304.U)
-    val is_mtvec   = Value(0x305.U)
-
-    val is_mepc    = Value(0x341.U)
-    val is_mcause  = Value(0x342.U)
-
-    val is_pmpcfg0 = Value(0x3A0.U)
+    val LW, IDLE = Value
 }

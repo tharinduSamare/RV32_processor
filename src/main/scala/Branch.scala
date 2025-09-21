@@ -24,7 +24,7 @@ class BranchCheck extends Module{
     val (opcode, opcode_cast) = opcodeT.safe(io.instr(6,0))
     val (branch_func3, func3_cast) = branchT.safe(io.instr(14,12))
     assert(opcode_cast, "Opcode must be a valid one, got 0x%x.", io.instr(6,0))
-    assert(func3_cast, "Opcode must be a valid one, got 0x%x.", io.instr(14,12))
+    assert(((opcode =/= opcodeT.B_type) || func3_cast), "Branch type must be a valid one, got 0x%x.", io.instr(14,12))
 
     val branch_condition = Wire(UInt(1.W))
 
@@ -32,10 +32,6 @@ class BranchCheck extends Module{
     switch(branch_func3){
         is(branchT.BEQ) {branch_condition := (io.operandA === io.operandB)}
         is(branchT.BNE) {branch_condition := (io.operandA =/= io.operandB)}
-        // is(branchT.BLT) {branch_condition := (io.operandA.asSInt < io.operandB.asSInt)}
-        // is(branchT.BGE) {branch_condition := (io.operandA.asSInt >= io.operandB.asSInt)}
-        // is(branchT.BLTU){branch_condition := (io.operandA.asUInt < io.operandB.asUInt)}
-        // is(branchT.BGEU){branch_condition := (io.operandA.asUInt >= io.operandB.asUInt)}
     }
 
     io.PCSrc := ((opcode === opcodeT.J_type) || (opcode === opcodeT.JR_type) || ((opcode === opcodeT.B_type) && (branch_condition === 1.U)))

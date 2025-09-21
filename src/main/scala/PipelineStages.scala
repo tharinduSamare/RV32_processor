@@ -146,11 +146,6 @@ class MEM extends Module {
 
     MemController_inst.io.dmem <> io.dmem
 
-    // MemController_inst.io.dmem.rData := io.dmem.rData
-    // io.dmem.addr := MemController_inst.io.dmem.addr
-    // io.dmem.wData := MemController_inst.io.dmem.wData
-    // io.dmem.wrEn := MemController_inst.io.dmem.wrEn
-
 }
 
 // -----------------------------------------
