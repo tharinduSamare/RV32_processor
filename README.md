@@ -53,3 +53,6 @@ source ./build.tcl
 - Set `IMEM_INIT_FILE` in `src/test/sv/uvm/top/tb_config_pkg.svh` to the required test's `.hex` file in `riscv-test` repository.
 - Run simulation
 
+# License 
+This project is licensed under the Apache License, Version 2.0.
+See the [LICENSE](LICENSE) file for details.
